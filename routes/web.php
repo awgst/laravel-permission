@@ -26,4 +26,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('post', PostController::class);
+// Route::resource('post', PostController::class);
+
+Route::group(['middleware'=>['can:edit-a-post'], 'as'=>'post.', 'prefix'=>'post'], function(){
+    Route::get('/', [PostController::class, 'index'])->name('index');
+    Route::get('/{id}', [PostController::class, 'show'])->name('show');
+    Route::delete('/{id}', [PostController::class, 'destroy'])->name('destroy');
+    Route::get('/{id}/edit', [PostController::class, 'edit'])->name('edit');
+});

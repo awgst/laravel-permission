@@ -19,12 +19,16 @@
                                 <div class="d-flex w-100 justify-content-between">
                                   <a href="{{ route('post.show', $post->id) }}" class="text-decoration-none text-dark"><h5 class="mb-1">{{ $post->title }}</h5></a>
                                   <small class="d-flex">
-                                    <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success mx-1">Edit</a>
-                                    <form action="{{ route('post.destroy', $post->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger mx-1">Delete</button>
-                                    </form>
+                                    @can('edit-a-post')
+                                        <a href="{{ route('post.edit', $post->id) }}" class="btn btn-success mx-1">Edit</a>
+                                    @endcan
+                                    @can('delete-a-post')
+                                        <form action="{{ route('post.destroy', $post->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger mx-1">Delete</button>
+                                        </form>
+                                    @endcan
                                   </small>
                                 </div>
                                 <small class="text-muted">{{ $post->body }}</small>        
